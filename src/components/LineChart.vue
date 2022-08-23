@@ -10,6 +10,8 @@
         </from>
         <br>
         <p class="stocksymbol"> {{ stockSymbol }}</p>
+        <p class="refreshtime"> Last Refresh:{{ getTime }}</p>
+        <p class="stockprice"> ${{ closingPrice }}</p>
         <div>
             <button  class="dateRangeButtons" @click="createStockPriceHistoryChartInSpecifiedDateHistoryRange(604800)">1 day</button>
             <button  class="dateRangeButtons" @click="createStockPriceHistoryChartInSpecifiedDateHistoryRange(432000)">5 days</button>
@@ -47,6 +49,7 @@ export default {
     mounted() {
         this.createStockPriceHistoryChartInSpecifiedDateHistoryRange();  //How long the user wants to show
         this.updateStockPriceHisChart();
+        //this.getTodayClosingPrice(604800);
 
     },
     setup() {
@@ -82,6 +85,8 @@ export default {
             })
         }
 
+        let getTime = new Date();
+        console.log(getTime);
         let stockSymbol = ref('AMZN');
         let AlphVantageAPI_URL = computed(() => {
             return 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=' + 
@@ -116,12 +121,13 @@ export default {
                         stockMarketHistoryDates.unshift(closingDateProperlyFormatted);
                         stockMarketHistoryEpochDates.unshift(closingDateEpochTime);
                         stockMarketHistoryPrices.unshift(closingPrice);
-
                     }
                     
-                    
-                    dateRange;
+
+                    dateRange; 
+                   
                 })
+
 
                 .then(() => {
                     let now = Date.now()/1000;
@@ -139,10 +145,33 @@ export default {
                     stockMarketHistoryPrices.splice(0,arrayIndexWhereDateIsLargerThanDateRangeDate);
 
                     updateStockPriceHisChart();
+                   // getTodayClosingPrice(604800);
+                    
                 })
 
                 
         }
+
+        //  let getTodayClosingPrice = (dateRange) => {
+
+          
+        //     axios.get(AlphVantageAPI_URL.value).then(response => {
+        //             stockMarketHistory = response;
+
+                   
+
+                    
+        //             dateRange;
+        //         })
+
+
+
+
+                
+        // }
+
+
+        
 
 
         return {
@@ -190,7 +219,30 @@ margin:0px;
     font-size: 36px;
     text-align:left;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    Trebuchet
+    
+}
+
+.refreshtime {
+    color: gray;
+    font-weight:bold;
+    font-size: 12px;
+    text-align:left;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
     Trebuchet 
+}
+
+
+
+.stockprice {
+    color: black;
+    margin: 5px 0px;
+    font-weight:bold;
+    font-size: 16px;
+    text-align:left;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    Trebuchet;
+
 }
 
 .dateRangeButtons {

@@ -80,13 +80,12 @@ export default {
 }
 
 .header-right-icon {
-    display: inline-block;
-    float: right;
+    display: flex;
 }
 
 
 .icon {
-  font-size: 30px;
+  font-size: 20px;
   color: black;
   background-color: white;
   border: none;
